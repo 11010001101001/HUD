@@ -19,13 +19,8 @@ struct MainView: View {
             Color.black
             content
         }
-        .ignoresSafeArea()
         .onReceive(locationManager.$speed) { speed in
-            if speed >= 10 {
-                restManager.startTimer(coffeeBreakDelay: savedSettings.coffeeBreakDelay)
-            } else {
-                restManager.stopTimer()
-            }
+            restManager.handle(speed, coffeeBreakDelay: savedSettings.coffeeBreakDelay)
         }
     }
 }
@@ -33,43 +28,40 @@ struct MainView: View {
 // MARK: - Content
 private extension MainView {
     var content: some View {
-        HStack(spacing: 20) {
+        HStack(alignment: .bottom, spacing: 26) {
             speed
-            additional
+            info
         }
+        .frame(width: 500, height: 200)
     }
 
-    var additional: some View {
-        VStack(alignment: .leading) {
-            icons
-            measurement
-        }
-    }
-
-    var icons: some View {
-        HStack(spacing: 20) {
+    var info: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            attention
             leaf
             coffee
+            measurement
+        }
+        .padding(.bottom, 45)
+    }
+
+    var speed: some View {
+        HStack {
+            Spacer()
+            Text("\(locationManager.speed, specifier: "%.0f")")
+                .font(.system(size: 200))
+                .fontDesign(.rounded)
+                .foregroundStyle(.white)
         }
     }
 
-    @ViewBuilder
-    var speed: some View {
-        let isSpeedExceeded = locationManager.speed > savedSettings.maxSpeed
-        let color: Color = isSpeedExceeded ? .red : .white
-
-        Rectangle()
-            .fill(.clear)
-            .frame(width: 400)
-            .overlay {
-                HStack {
-                    Spacer()
-                    Text("\(locationManager.speed, specifier: "%.0f")")
-                        .font(.system(size: 200))
-                        .fontDesign(.monospaced)
-                        .foregroundStyle(color)
-                }
-            }
+    var attention: some View {
+        Image(systemName: "exclamationmark.triangle.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .foregroundStyle(.red)
+            .frame(width: 30, height: 30)
+            .opacity(locationManager.speed > savedSettings.maxSpeed ? 1.0 : .zero)
     }
 
     var coffee: some View {
@@ -77,7 +69,7 @@ private extension MainView {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .foregroundStyle(.orange)
-            .frame(width: 70, height: 70)
+            .frame(width: 40, height: 40)
             .opacity(restManager.isNeedRest ? 1.0 : .zero)
     }
 
@@ -89,14 +81,18 @@ private extension MainView {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .foregroundStyle(.green)
-            .frame(width: 60, height: 60)
+            .frame(width: 30, height: 30)
             .opacity(isEcoMode ? 1.0 : .zero)
     }
 
     var measurement: some View {
         Text("км/ч")
-            .font(.system(size: 50))
-            .fontDesign(.monospaced)
+            .font(.system(size: 40))
+            .fontDesign(.rounded)
             .foregroundStyle(.white)
     }
+}
+
+#Preview {
+    MainView(savedSettings: .init(maxSpeed: 60, fuelEconomyMinSpeed: 90, fuelEconomyMaxSpeed: 120, coffeeBreakDelay: 10, mode: .dashboard))
 }

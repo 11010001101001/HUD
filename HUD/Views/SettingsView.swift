@@ -20,7 +20,7 @@ struct SettingsView: View {
 
             Section("Перерыв на кофе") {
                 Picker("Задержка", selection: $savedSettings.coffeeBreakDelay) {
-                    Text("3 мин").tag(180.0)
+                    Text("1 мин").tag(60.0)
                     Text("1 час").tag(3600.0)
                     Text("2 часа").tag(7200.0)
                     Text("3 часа").tag(10800.0)

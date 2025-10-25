@@ -43,8 +43,8 @@ private extension ContentView {
     func buildMainView(savedSettings: Settings) -> some View {
         MainView(savedSettings: savedSettings)
             .rotation3DEffect(.degrees(savedSettings.mode == .HUD ? 180 : .zero), axis: (x: 0.0, y: 1.0, z: 0.0))
-            .onAppear { onAppear() }
-            .onDisappear { onDisappear() }
+            .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
+            .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
             .toolbar { buildToolbar(savedSettings: savedSettings) }
     }
     
@@ -56,19 +56,6 @@ private extension ContentView {
                 Image(systemName: "gear").opacity(0.5)
             }
         }
-    }
-
-    func onAppear() {
-        UIApplication.shared.isIdleTimerDisabled = true
-        if let screen = UIApplication
-            .shared.connectedScenes.compactMap({ ($0 as? UIWindowScene)?.screen })
-            .first {
-            screen.brightness = 1.0
-        }
-    }
-
-    func onDisappear() {
-        UIApplication.shared.isIdleTimerDisabled = false
     }
 }
 
