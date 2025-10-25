@@ -1,8 +1,7 @@
-
-<img width="896" height="414" alt="IMG_0042" src="https://github.com/user-attachments/assets/bc7ef682-b736-4b6d-a1dd-27c2cad37c95" />
-<img width="896" height="414" alt="IMG_0043" src="https://github.com/user-attachments/assets/07f6bbdb-a2e9-4904-92c6-bafc47044131" />
-<img width="896" height="414" alt="IMG_0044" src="https://github.com/user-attachments/assets/3ac8a07c-0465-4a24-8514-b78ccf2249b2" />
-<img width="896" height="414" alt="IMG_0045" src="https://github.com/user-attachments/assets/cc75e96a-d2f0-4097-abc1-f85c8266a224" />
+<img width="1080" height="638" alt="Screenshot 2025-10-26 at 02 25 07" src="https://github.com/user-attachments/assets/2b8c5a13-0274-4f28-8af1-8f4a5e8b9bd5" />
+<img width="896" height="414" alt="IMG_0046" src="https://github.com/user-attachments/assets/dc158a0a-14f5-4864-8832-c76a0cb8b639" />
+<img width="896" height="414" alt="IMG_0047" src="https://github.com/user-attachments/assets/726178a7-a1ae-4f75-bff8-a4d30ab4f3bc" />
+<img width="896" height="414" alt="IMG_0048" src="https://github.com/user-attachments/assets/ba897d83-1009-4455-ac5a-43cf06095e79" />
 
 ## ☕️
 - **TON**: UQCQclFDQnQkHI4bJETisvn4QAZevjMWx5mjC3AErZaXvhlU
