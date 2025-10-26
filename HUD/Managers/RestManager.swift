@@ -11,25 +11,17 @@ import Combine
 final class RestManager: ObservableObject {
     @Published var isNeedRest = false
 
-    private let soundManager: SoundManagerProtocol = SoundManager()
+    private let soundManager: SoundManagerProtocol
     private var timer: AnyCancellable?
 
-    func startTimer(coffeeBreakDelay: TimeInterval) {
-        timer?.cancel()
-        timer = Just(())
-            .delay(for: .seconds(coffeeBreakDelay), scheduler: RunLoop.main)
-            .sink(receiveValue: { [weak self] in
-                self?.isNeedRest = true
-                self?.soundManager.play(Sound.allCases.randomElement() ?? Sound.notification0)
-            })
+    // MARK: Init
+    init(soundManager: SoundManagerProtocol) {
+        self.soundManager = soundManager
     }
+}
 
-    func stopTimer() {
-        timer?.cancel()
-        timer = nil
-        isNeedRest = false
-    }
-
+// MARK: - Public
+extension RestManager {
     func checkIsNeedRest(_ speed: Double, coffeeBreakDelay: Double) {
         if speed >= 10 {
             guard timer == nil else { return }
@@ -37,5 +29,24 @@ final class RestManager: ObservableObject {
         } else {
             stopTimer()
         }
+    }
+}
+
+// MARK: - Private
+private extension RestManager {
+    func startTimer(coffeeBreakDelay: TimeInterval) {
+        timer?.cancel()
+        timer = Just(())
+            .delay(for: .seconds(coffeeBreakDelay), scheduler: RunLoop.main)
+            .sink(receiveValue: { [weak self] in
+                self?.isNeedRest = true
+                self?.soundManager.play(.health)
+            })
+    }
+
+    func stopTimer() {
+        timer?.cancel()
+        timer = nil
+        isNeedRest = false
     }
 }

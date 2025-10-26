@@ -8,7 +8,6 @@
 import Foundation
 
 enum Sound: String, CaseIterable {
-    case notification0
-    case notification1
-    case notification2
+    case health
+    case speed
 }

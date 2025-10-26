@@ -11,20 +11,35 @@ import Combine
 
 final class LocationManager: NSObject, ObservableObject {
     @Published var speed: Double = 0.0
+    @Published var coordinate: CLLocationCoordinate2D?
 
-    private let manager = CLLocationManager()
+    private let locationManager = CLLocationManager()
+    private let soundManager: SoundManagerProtocol
+    private let maxSpeed: Double
 
-    override init() {
+    // MARK: Init
+    init(
+        soundManager: SoundManagerProtocol,
+        maxSpeed: Double
+    ) {
+        self.soundManager = soundManager
+        self.maxSpeed = maxSpeed
         super.init()
-        manager.delegate = self
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let last = locations.last else { return }
         speed = max(last.speed, .zero) * 3.6
+        coordinate = last.coordinate
+        
+        if speed >= maxSpeed {
+            soundManager.play(.speed)
+        }
     }
 }

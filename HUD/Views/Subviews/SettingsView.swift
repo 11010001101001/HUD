@@ -9,8 +9,32 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable var savedSettings: Settings
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var isSettingsShown = false
 
     var body: some View {
+        content
+    }
+}
+
+// MARK: - Content
+private extension SettingsView {
+    var content: some View {
+        Button {
+            isSettingsShown = true
+        } label: {
+            Image(systemName: "gear")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .foregroundStyle(.white)
+                .frame(width: 25, height: 25)
+                .opacity(0.5)
+        }
+        .sheet(isPresented: $isSettingsShown) { sheet }
+    }
+
+    var sheet: some View {
         Form {
             Section("Скорость") {
                 Stepper("Макс. разрешенная: \(Int(savedSettings.maxSpeed)) км/ч", value: $savedSettings.maxSpeed, in: 40...160)
@@ -36,6 +60,6 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
             }
         }
-        .navigationTitle("Настройки")
+        .scrollIndicators(.hidden)
     }
 }

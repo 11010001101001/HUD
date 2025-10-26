@@ -13,38 +13,34 @@ protocol SoundManagerProtocol {
 }
 
 final class SoundManager: SoundManagerProtocol {
-    private var player: AVAudioPlayer?
-    private var player1: AVAudioPlayer?
-    private var player2: AVAudioPlayer?
+    private var speedPlayer: AVAudioPlayer?
+    private var healthPlayer: AVAudioPlayer?
     private let format = "wav"
-
+    
     init() {
         try? AVAudioSession.sharedInstance().setCategory(.playback, options: .mixWithOthers)
         try? AVAudioSession.sharedInstance().setActive(true)
         prewarm()
     }
-
+    
     func prewarm() {
-        player = createPlayer(forResource: Sound.notification0.rawValue)
-        player1 = createPlayer(forResource: Sound.notification1.rawValue)
-        player2 = createPlayer(forResource: Sound.notification2.rawValue)
+        speedPlayer = createPlayer(forResource: Sound.speed.rawValue)
+        healthPlayer = createPlayer(forResource: Sound.health.rawValue)
     }
-
+    
     func createPlayer(forResource: String) -> AVAudioPlayer? {
         guard let url = Bundle.main.url(forResource: forResource, withExtension: format) else { return nil }
         let player = try? AVAudioPlayer(contentsOf: url)
         player?.prepareToPlay()
         return player
     }
-
+    
     func play(_ sound: Sound) {
         switch sound {
-        case .notification0:
-            player?.play()
-        case .notification1:
-            player1?.play()
-        case .notification2:
-            player2?.play()
+        case .speed:
+            speedPlayer?.play()
+        case .health:
+            healthPlayer?.play()
         }
     }
 }
