@@ -16,13 +16,12 @@ final class RestManager: ObservableObject {
 
     func startTimer(coffeeBreakDelay: TimeInterval) {
         timer?.cancel()
-        timer = Timer
-            .publish(every: coffeeBreakDelay, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
+        timer = Just(())
+            .delay(for: .seconds(coffeeBreakDelay), scheduler: RunLoop.main)
+            .sink(receiveValue: { [weak self] in
                 self?.isNeedRest = true
                 self?.soundManager.play(Sound.allCases.randomElement() ?? Sound.notification0)
-            }
+            })
     }
 
     func stopTimer() {
@@ -31,8 +30,9 @@ final class RestManager: ObservableObject {
         isNeedRest = false
     }
 
-    func handle(_ speed: Double, coffeeBreakDelay: Double) {
-        if speed >= 10, timer == nil {
+    func checkIsNeedRest(_ speed: Double, coffeeBreakDelay: Double) {
+        if speed >= 10 {
+            guard timer == nil else { return }
             startTimer(coffeeBreakDelay: coffeeBreakDelay)
         } else {
             stopTimer()

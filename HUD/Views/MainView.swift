@@ -20,7 +20,7 @@ struct MainView: View {
             content
         }
         .onReceive(locationManager.$speed) { speed in
-            restManager.handle(speed, coffeeBreakDelay: savedSettings.coffeeBreakDelay)
+            restManager.checkIsNeedRest(speed, coffeeBreakDelay: savedSettings.coffeeBreakDelay)
         }
     }
 }
