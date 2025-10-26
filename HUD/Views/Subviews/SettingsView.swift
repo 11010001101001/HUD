@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable var savedSettings: Settings
-    @Environment(\.dismiss) private var dismiss
 
     @State private var isSettingsShown = false
 
@@ -38,9 +37,13 @@ private extension SettingsView {
         Form {
             Section("Скорость") {
                 Stepper("Макс. разрешенная: \(Int(savedSettings.maxSpeed)) км/ч", value: $savedSettings.maxSpeed, in: 40...160)
+                    .sensoryFeedback(.increase, trigger: savedSettings.maxSpeed)
                 Stepper("Экономия топлива от: \(Int(savedSettings.fuelEconomyMinSpeed)) км/ч", value: $savedSettings.fuelEconomyMinSpeed, in: 60...150)
+                    .sensoryFeedback(.decrease, trigger: savedSettings.fuelEconomyMinSpeed)
                 Stepper("Экономия топлива до: \(Int(savedSettings.fuelEconomyMaxSpeed)) км/ч", value: $savedSettings.fuelEconomyMaxSpeed, in: 60...200)
+                    .sensoryFeedback(.increase, trigger: savedSettings.fuelEconomyMaxSpeed)
             }
+            .padding(.top)
 
             Section("Перерыв на кофе") {
                 Picker("Задержка", selection: $savedSettings.coffeeBreakDelay) {
@@ -49,6 +52,7 @@ private extension SettingsView {
                     Text("2 часа").tag(7200.0)
                     Text("3 часа").tag(10800.0)
                 }
+                .sensoryFeedback(.selection, trigger: savedSettings.coffeeBreakDelay)
                 .pickerStyle(.segmented)
             }
 
@@ -57,6 +61,7 @@ private extension SettingsView {
                     Text("HUD").tag(Mode.HUD)
                     Text("Панель приборов").tag(Mode.dashboard)
                 }
+                .sensoryFeedback(.selection, trigger: savedSettings.mode)
                 .pickerStyle(.segmented)
             }
         }

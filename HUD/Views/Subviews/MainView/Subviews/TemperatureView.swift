@@ -27,10 +27,7 @@ private extension TemperatureView {
     }
 
     var temperature: some View {
-        Text(weatherManager.temperature)
-            .font(.system(size: 20))
-            .fontDesign(.rounded)
-            .foregroundStyle(.white)
+        buildText(weatherManager.temperature)
     }
 
     @ViewBuilder
@@ -46,7 +43,11 @@ private extension TemperatureView {
     }
 
     var locationName: some View {
-        Text(weatherManager.locationName)
+        buildText(weatherManager.locationName)
+    }
+
+    func buildText(_ text: String) -> some View {
+        Text(text)
             .font(.system(size: 20))
             .fontDesign(.rounded)
             .foregroundStyle(.white)

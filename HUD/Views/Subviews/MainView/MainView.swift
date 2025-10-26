@@ -38,15 +38,15 @@ struct MainView: View {
         }
         .overlay(alignment: .top) {
             WeatherConditionsView(weatherManager: weatherManager)
-                .padding(.top)
+                .padding(.top, 20)
         }
         .overlay(alignment: .topLeading) {
             TemperatureView(weatherManager: weatherManager)
-                .padding([.top, .leading])
+                .padding([.top, .leading], 20)
         }
         .overlay(alignment: .topTrailing) {
             SettingsView(savedSettings: savedSettings)
-                .padding([.top, .trailing])
+                .padding([.top, .trailing], 20)
         }
         .ignoresSafeArea()
     }

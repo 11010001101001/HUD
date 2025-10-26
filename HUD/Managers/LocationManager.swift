@@ -34,7 +34,11 @@ final class LocationManager: NSObject, ObservableObject {
 // MARK: - CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let last = locations.last else { return }
+        guard let last = locations.last else {
+            speed = 0
+            coordinate = nil
+            return
+        }
         speed = max(last.speed, .zero) * 3.6
         coordinate = last.coordinate
         
