@@ -1,6 +1,6 @@
 //
-//  HUDApp.swift
-//  HUD
+//  SpeedometerApp.swift
+//  Speedometer
 //
 //  Created by Ярослав Куприянов on 23.10.2025.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct HUDApp: App {
+struct SpeedometerApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Settings.self,
