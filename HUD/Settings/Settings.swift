@@ -11,6 +11,8 @@ import SwiftData
 @Model
 final class Settings {
     var maxSpeed: Double
+    var speedExceededSound: Sound
+    var speedAnimationEnabled: Bool
     var fuelEconomyMinSpeed: Double
     var fuelEconomyMaxSpeed: Double
     var coffeeBreakDelay: Double
@@ -18,12 +20,16 @@ final class Settings {
 
     init(
         maxSpeed: Double,
+        speedExceededSound: Sound,
+        speedAnimationEnabled: Bool,
         fuelEconomyMinSpeed: Double,
         fuelEconomyMaxSpeed: Double,
         coffeeBreakDelay: Double,
         mode: Mode
     ) {
         self.maxSpeed = maxSpeed
+        self.speedExceededSound = speedExceededSound
+        self.speedAnimationEnabled = speedAnimationEnabled
         self.fuelEconomyMinSpeed = fuelEconomyMinSpeed
         self.fuelEconomyMaxSpeed = fuelEconomyMaxSpeed
         self.coffeeBreakDelay = coffeeBreakDelay

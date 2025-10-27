@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum Sound: String, CaseIterable {
+enum Sound: String, Codable, CaseIterable {
     case health
     case speed
+    case airplane
 }

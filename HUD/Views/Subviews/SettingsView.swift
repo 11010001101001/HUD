@@ -45,9 +45,26 @@ private extension SettingsView {
             }
             .padding(.top)
 
+            Section("Уведомление о превышении скорости:") {
+                Picker("Уведомление", selection: $savedSettings.speedExceededSound) {
+                    Text(Sound.airplane.rawValue).tag(Sound.airplane)
+                    Text(Sound.speed.rawValue).tag(Sound.speed)
+                }
+                .sensoryFeedback(.selection, trigger: savedSettings.speedExceededSound)
+                .pickerStyle(.segmented)
+            }
+
+            Section("Анимация изменения скорости:") {
+                Picker("Анимация", selection: $savedSettings.speedAnimationEnabled) {
+                    Text("вкл").tag(true)
+                    Text("выкл").tag(false)
+                }
+                .sensoryFeedback(.selection, trigger: savedSettings.speedAnimationEnabled)
+                .pickerStyle(.segmented)
+            }
+
             Section("Перерыв на кофе") {
-                Picker("Задержка", selection: $savedSettings.coffeeBreakDelay) {
-                    Text("1 мин").tag(60.0)
+                Picker("Перерыв", selection: $savedSettings.coffeeBreakDelay) {
                     Text("1 час").tag(3600.0)
                     Text("2 часа").tag(7200.0)
                     Text("3 часа").tag(10800.0)

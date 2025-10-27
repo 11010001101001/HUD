@@ -8,22 +8,25 @@
 import Foundation
 import CoreLocation
 import Combine
+import SwiftUI
 
 final class LocationManager: NSObject, ObservableObject {
     @Published var speed: Double = 0.0
     @Published var coordinate: CLLocationCoordinate2D?
 
+    @Bindable var savedSettings: Settings
+
     private let locationManager = CLLocationManager()
     private let soundManager: SoundManagerProtocol
-    private let maxSpeed: Double
+    private var speedExceeded = false
 
     // MARK: Init
     init(
         soundManager: SoundManagerProtocol,
-        maxSpeed: Double
+        savedSettings: Settings
     ) {
         self.soundManager = soundManager
-        self.maxSpeed = maxSpeed
+        self.savedSettings = savedSettings
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -41,9 +44,18 @@ extension LocationManager: CLLocationManagerDelegate {
         }
         speed = max(last.speed, .zero) * 3.6
         coordinate = last.coordinate
-        
-        if speed >= maxSpeed {
-            soundManager.play(.speed)
+
+        notify()
+    }
+
+    func notify() {
+        if speed >= savedSettings.maxSpeed {
+            if !speedExceeded {
+                soundManager.play(savedSettings.speedExceededSound)
+            }
+            speedExceeded = true
+        } else {
+            speedExceeded = false
         }
     }
 }

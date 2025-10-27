@@ -20,7 +20,7 @@ struct MainView: View {
         self.savedSettings = savedSettings
         let soundManager: SoundManagerProtocol = SoundManager()
         
-        _locationManager = StateObject(wrappedValue: LocationManager(soundManager: soundManager, maxSpeed: savedSettings.maxSpeed))
+        _locationManager = StateObject(wrappedValue: LocationManager(soundManager: soundManager, savedSettings: savedSettings))
         _restManager = StateObject(wrappedValue: RestManager(soundManager: soundManager))
         _weatherManager = StateObject(wrappedValue: WeatherManager())
     }
@@ -56,7 +56,10 @@ struct MainView: View {
 private extension MainView {
     var content: some View {
         HStack(alignment: .bottom, spacing: 26) {
-            SpeedView(locationManager: locationManager)
+            SpeedView(
+                locationManager: locationManager,
+                savedSettings: savedSettings
+            )
             AdditionalInfoView(
                 locationManager: locationManager,
                 restManager: restManager,
@@ -71,6 +74,8 @@ private extension MainView {
     MainView(
         savedSettings: .init(
             maxSpeed: 60,
+            speedExceededSound: .speed,
+            speedAnimationEnabled: false,
             fuelEconomyMinSpeed: 90,
             fuelEconomyMaxSpeed: 120,
             coffeeBreakDelay: 10,
