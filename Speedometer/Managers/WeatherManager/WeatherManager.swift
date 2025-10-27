@@ -83,13 +83,17 @@ private extension WeatherManager {
 
     func handle(_ response: WeatherResponse) {
         locationName = response.name ?? ""
-        temperature = String(format: "%.0f", response.main?.temp ?? .zero) + " °C"
+        let temperature = Int(response.main?.temp ?? .zero)
+        self.temperature = String(temperature) + " °C"
 
-        isSnow = Int(response.main?.temp ?? 0) <= 3
-        isRain = false
-
-        let description = (response.weather?.first?.description ?? "").lowercased()
-        guard let regex = try? NSRegularExpression(pattern: "\\bдожд\\w*\\b", options: []), !isSnow else { return }
-        isRain = regex.firstMatch(in: description, options: [], range: NSRange(description.startIndex..., in: description)) != nil
+        if temperature <= 3 {
+            isSnow = true
+            isRain = false
+        } else {
+            isSnow = false
+            let description = (response.weather?.first?.description ?? "").lowercased()
+            guard let regex = try? NSRegularExpression(pattern: "\\bдожд\\w*\\b", options: []) else { return }
+            isRain = regex.firstMatch(in: description, options: [], range: NSRange(description.startIndex..., in: description)) != nil
+        }
     }
 }

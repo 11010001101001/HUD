@@ -11,6 +11,7 @@ import Combine
 import SwiftUI
 
 final class LocationManager: NSObject, ObservableObject {
+    @Published var isNoGps = false
     @Published var speed: Double = 0.0
     @Published var coordinate: CLLocationCoordinate2D?
 
@@ -38,13 +39,14 @@ final class LocationManager: NSObject, ObservableObject {
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let last = locations.last else {
+            isNoGps = true
             speed = 0
             coordinate = nil
             return
         }
+        isNoGps = false
         speed = max(last.speed, .zero) * 3.6
         coordinate = last.coordinate
-
         notify()
     }
 

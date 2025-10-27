@@ -23,10 +23,11 @@ private extension SpeedView {
     var speed: some View {
         let contentTransition: ContentTransition = savedSettings.speedAnimationEnabled ? .numericText(value: locationManager.speed) : .identity
         let animation: Animation? = savedSettings.speedAnimationEnabled ? .easeInOut(duration: 0.3) : .none
-        
+        let text = locationManager.isNoGps ? "N/A" : String(format: "%.0f", locationManager.speed)
+
         HStack {
             Spacer()
-            Text("\(locationManager.speed, specifier: "%.0f")")
+            Text(text)
                 .font(.system(size: 200))
                 .fontDesign(.rounded)
                 .foregroundStyle(.white)
