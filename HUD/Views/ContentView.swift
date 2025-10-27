@@ -13,6 +13,14 @@ struct ContentView: View {
     @Query private var settings: [Settings]
 
     var body: some View {
+        content
+    }
+}
+
+// MARK: - Content
+private extension ContentView {
+    @ViewBuilder
+    var content: some View {
         if let savedSettings = settings.first {
             buildMainView(savedSettings: savedSettings)
         } else {
@@ -32,10 +40,7 @@ struct ContentView: View {
                 }
         }
     }
-}
 
-// MARK: - Private
-private extension ContentView {
     func buildMainView(savedSettings: Settings) -> some View {
         MainView(savedSettings: savedSettings)
             .rotation3DEffect(.degrees(savedSettings.mode == .HUD ? 180 : .zero), axis: (x: 0.0, y: 1.0, z: 0.0))
